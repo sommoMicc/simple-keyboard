@@ -313,10 +313,10 @@ class SimpleKeyboard {
   getInputCandidates(
     input: string
   ): { candidateKey: string; candidateValue: string } | Record<string, never> {
-    const { layoutCandidates: layoutCandidatesObj, candidatesProvider } = this.options;
+    const { layoutCandidates: layoutCandidatesObj, candidatesProvider } =
+      this.options;
 
-    if(candidatesProvider)
-      return candidatesProvider(input)
+    if (candidatesProvider) return candidatesProvider(input);
 
     if (!layoutCandidatesObj || typeof layoutCandidatesObj !== "object") {
       return {};
@@ -521,8 +521,8 @@ class SimpleKeyboard {
           this.getInputCandidates(updatedInput);
 
         if (candidateKey && candidateValue) {
-          if(debug) {
-            console.log("CandidateBox is going to be shown")
+          if (debug) {
+            console.log("CandidateBox is going to be shown");
           }
           this.showCandidatesBox(
             candidateKey,
@@ -530,8 +530,8 @@ class SimpleKeyboard {
             this.keyboardDOM
           );
         } else {
-          if(debug) {
-            console.log("CandidateBox is beying destroyed")
+          if (debug) {
+            console.log("CandidateBox is beying destroyed");
           }
           this.candidateBox?.destroy();
         }
