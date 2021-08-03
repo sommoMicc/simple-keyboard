@@ -366,9 +366,9 @@ class SimpleKeyboard {
         onSelect: (selectedCandidate: string, e: MouseEvent) => {
           const currentInput = this.getInput(this.options.inputName, true);
           const initialCaretPosition = this.getCaretPositionEnd() || 0;
-          const inputSubstr =
-            currentInput.substring(0, initialCaretPosition || 0) ||
-            currentInput;
+          const inputSubstr = (
+            currentInput.substring(0, initialCaretPosition || 0) || currentInput
+          ).replace(/[^A-z]/g, "");
 
           const regexp = new RegExp(`${candidateKey}$`, "g");
           const newInputSubstr = inputSubstr.replace(regexp, selectedCandidate);
@@ -388,7 +388,6 @@ class SimpleKeyboard {
               this.getInput(this.options.inputName, true),
               e
             );
-
           /**
            * Calling onChangeAll
            */
