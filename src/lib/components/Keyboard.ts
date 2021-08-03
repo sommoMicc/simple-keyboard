@@ -381,15 +381,19 @@ class SimpleKeyboard {
           if (newCaretPosition < 0) newCaretPosition = 0;
 
           console.log(
-            "NewInput",
+            "NewInput ",
             newInput,
-            "CurrentInput",
+            "CurrentInput ",
             currentInput,
-            "inputSubstr",
+            "inputSubstr ",
             inputSubstr,
-            "NewInputSubstr",
+            "regexp ",
+            regexp,
+            "candidateKey ",
+            candidateKey,
+            "NewInputSubstr ",
             newInputSubstr,
-            "newInput",
+            "newInput ",
             newInput
           );
 
