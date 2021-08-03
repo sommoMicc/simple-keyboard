@@ -391,6 +391,8 @@ class SimpleKeyboard {
             regexp,
             "candidateKey ",
             candidateKey,
+            "selectedCandidate",
+            selectedCandidate,
             "NewInputSubstr ",
             newInputSubstr,
             "newInput ",
