@@ -47,6 +47,7 @@ class SimpleKeyboard {
   defaultName = "default";
   activeInputElement: HTMLInputElement | HTMLTextAreaElement | null = null;
 
+  lastCandidateKey: string | null = null;
   /**
    * Creates an instance of SimpleKeyboard
    * @param {Array} params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
@@ -402,6 +403,9 @@ class SimpleKeyboard {
     if (this.options.candidatesProvider) {
       if (this.options.debug)
         console.log(this.options.candidatesProvider(input));
+
+      this.lastCandidateKey = input; // Save the last candidate key to allow rebuilding with the same data
+
       const x = this.options.candidatesProvider(input);
       this.showCandidatesBox(
         x.candidateKey,
@@ -634,6 +638,7 @@ class SimpleKeyboard {
        */
       if (!isKeyboard && this.candidateBox) {
         this.candidateBox.destroy();
+        this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
 
@@ -830,6 +835,7 @@ class SimpleKeyboard {
        */
       if (this.candidateBox) {
         this.candidateBox.destroy();
+        this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
 
@@ -848,6 +854,7 @@ class SimpleKeyboard {
         this.candidateBox = new CandidateBox({
           utilities: this.utilities,
         });
+        this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
   }

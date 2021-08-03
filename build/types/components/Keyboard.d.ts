@@ -38,6 +38,7 @@ declare class SimpleKeyboard {
     keyboardRowsDOM: KeyboardElement;
     defaultName: string;
     activeInputElement: HTMLInputElement | HTMLTextAreaElement | null;
+    lastCandidateKey: string | null;
     /**
      * Creates an instance of SimpleKeyboard
      * @param {Array} params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
