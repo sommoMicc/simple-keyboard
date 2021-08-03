@@ -77,6 +77,7 @@ declare class SimpleKeyboard {
      * @param targetElement The element next to which the candidates box will be shown
      */
     showCandidatesBox(candidateKey: string, candidateValue: string, targetElement: KeyboardElement): void;
+    rebuildCandidates(input: string): void;
     /**
      * Handles clicks made to keyboard buttons
      * @param  {string} button The button's layout name.

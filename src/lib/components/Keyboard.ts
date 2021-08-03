@@ -313,20 +313,7 @@ class SimpleKeyboard {
   getInputCandidates(
     input: string
   ): { candidateKey: string; candidateValue: string } | Record<string, never> {
-    const {
-      layoutCandidates: layoutCandidatesObj,
-      candidatesProvider: candidatesProvider,
-    } = this.options;
-
-    if (candidatesProvider) {
-      if (this.options.debug) console.log(candidatesProvider(input));
-      const x = candidatesProvider(input);
-      console.log("Ritorno 1", {
-        candidateKey: x.candidateKey,
-        candidateValue: x.candidateValue,
-      });
-      return { candidateKey: x.candidateKey, candidateValue: x.candidateValue };
-    }
+    const { layoutCandidates: layoutCandidatesObj } = this.options;
 
     if (!layoutCandidatesObj || typeof layoutCandidatesObj !== "object") {
       return {};
@@ -408,6 +395,19 @@ class SimpleKeyboard {
             this.options.onChangeAll(this.getAllInputs(), e);
         },
       });
+    }
+  }
+
+  rebuildCandidates(input: string): void {
+    if (this.options.candidatesProvider) {
+      if (this.options.debug)
+        console.log(this.options.candidatesProvider(input));
+      const x = this.options.candidatesProvider(input);
+      this.showCandidatesBox(
+        x.candidateKey,
+        x.candidateValue,
+        this.keyboardDOM
+      );
     }
   }
 
