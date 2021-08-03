@@ -313,13 +313,15 @@ class SimpleKeyboard {
   getInputCandidates(
     input: string
   ): { candidateKey: string; candidateValue: string } | Record<string, never> {
-    const { layoutCandidates: layoutCandidatesObj, candidatesProvider } =
-      this.options;
+    const {
+      layoutCandidates: layoutCandidatesObj,
+      candidatesProvider: candidatesProvider,
+    } = this.options;
 
     if (candidatesProvider) {
       if (this.options.debug) console.log(candidatesProvider(input));
       const x = candidatesProvider(input);
-      console.log("Ritorno ", {
+      console.log("Ritorno 1", {
         candidateKey: x.candidateKey,
         candidateValue: x.candidateValue,
       });
