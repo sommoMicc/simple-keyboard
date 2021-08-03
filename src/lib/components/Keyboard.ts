@@ -316,7 +316,10 @@ class SimpleKeyboard {
     const { layoutCandidates: layoutCandidatesObj, candidatesProvider } =
       this.options;
 
-    if (candidatesProvider) return candidatesProvider(input);
+    if (candidatesProvider) {
+      if (this.options.debug) console.log(candidatesProvider(input));
+      return candidatesProvider(input);
+    }
 
     if (!layoutCandidatesObj || typeof layoutCandidatesObj !== "object") {
       return {};
