@@ -318,7 +318,12 @@ class SimpleKeyboard {
 
     if (candidatesProvider) {
       if (this.options.debug) console.log(candidatesProvider(input));
-      return candidatesProvider(input);
+      const x = candidatesProvider(input);
+      console.log("Ritorno ", {
+        candidateKey: x.candidateKey,
+        candidateValue: x.candidateValue,
+      });
+      return { candidateKey: x.candidateKey, candidateValue: x.candidateValue };
     }
 
     if (!layoutCandidatesObj || typeof layoutCandidatesObj !== "object") {
