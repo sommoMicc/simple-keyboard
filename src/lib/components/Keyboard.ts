@@ -422,9 +422,9 @@ class SimpleKeyboard {
       if (this.options.debug)
         console.log(this.options.candidatesProvider(input));
 
-      this.lastCandidateKey = input; // Save the last candidate key to allow rebuilding with the same data
-
       const x = this.options.candidatesProvider(input);
+      this.lastCandidateKey = x.candidateKey; // Save the last candidate key to allow rebuilding with the same data
+
       this.showCandidatesBox(
         x.candidateKey,
         x.candidateValue,
