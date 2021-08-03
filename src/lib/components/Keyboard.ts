@@ -128,6 +128,7 @@ class SimpleKeyboard {
      * @property {boolean} enableLayoutCandidates Enable input method editor candidate list support.
      * @property {object} excludeFromLayout Buttons to exclude from layout
      * @property {number} layoutCandidatesPageSize Determine size of layout candidate list
+     * @property {function(input: string):{ candidateKey: string; candidateValue: string }} candidatesProvider Determine how layout candidates are computed
      */
     this.options = {
       layoutName: "default",
@@ -312,7 +313,10 @@ class SimpleKeyboard {
   getInputCandidates(
     input: string
   ): { candidateKey: string; candidateValue: string } | Record<string, never> {
-    const { layoutCandidates: layoutCandidatesObj } = this.options;
+    const { layoutCandidates: layoutCandidatesObj, candidatesProvider } = this.options;
+
+    if(candidatesProvider)
+      return candidatesProvider(input)
 
     if (!layoutCandidatesObj || typeof layoutCandidatesObj !== "object") {
       return {};
@@ -517,12 +521,18 @@ class SimpleKeyboard {
           this.getInputCandidates(updatedInput);
 
         if (candidateKey && candidateValue) {
+          if(debug) {
+            console.log("CandidateBox is going to be shown")
+          }
           this.showCandidatesBox(
             candidateKey,
             candidateValue,
             this.keyboardDOM
           );
         } else {
+          if(debug) {
+            console.log("CandidateBox is beying destroyed")
+          }
           this.candidateBox?.destroy();
         }
       }

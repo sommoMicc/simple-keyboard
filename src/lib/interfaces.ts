@@ -238,6 +238,11 @@ export interface KeyboardOptions {
     layoutCandidatesPageSize?: number;
 
     /**
+     * Can override the default candidates computation algorithm
+     */
+    candidatesProvider?: (input: string) => {candidateKey: string; candidateValue: string},
+
+    /**
      * Executes the callback function every time simple-keyboard is rendered (e.g: when you change layouts).
      */
      onRender?: (instance?: SimpleKeyboard) => void;
