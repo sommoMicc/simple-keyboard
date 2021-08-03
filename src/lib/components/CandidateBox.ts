@@ -32,7 +32,7 @@ class CandidateBox {
     onSelect,
   }: CandidateBoxShowParams): void {
     if (!candidateValue || !candidateValue.length) {
-      return;
+      candidateValue = "";
     }
 
     const candidateListPages = this.utilities.chunkArray(

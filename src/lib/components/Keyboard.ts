@@ -530,21 +530,20 @@ class SimpleKeyboard {
         const { candidateKey, candidateValue } =
           this.getInputCandidates(updatedInput);
 
-        if (candidateKey && candidateValue) {
-          if (debug) {
-            console.log("CandidateBox is going to be shown");
-          }
-          this.showCandidatesBox(
-            candidateKey,
-            candidateValue,
-            this.keyboardDOM
+        // if (candidateKey && candidateValue) {
+        if (debug) {
+          console.log(
+            "CandidateBox is going to be shown with key ",
+            candidateKey
           );
-        } else {
-          if (debug) {
-            console.log("CandidateBox is beying destroyed");
-          }
-          this.candidateBox?.destroy();
         }
+        this.showCandidatesBox(candidateKey, candidateValue, this.keyboardDOM);
+        // } else {
+        //   if (debug) {
+        //     console.log("CandidateBox is beying destroyed");
+        //   }
+        //   this.candidateBox?.destroy();
+        // }
       }
     }
 
