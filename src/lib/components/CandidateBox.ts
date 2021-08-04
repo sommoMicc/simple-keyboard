@@ -5,6 +5,7 @@ import {
   CandidateBoxParams,
   CandidateBoxRenderParams,
   CandidateBoxShowParams,
+  KeyboardElement,
 } from "./../interfaces";
 
 class CandidateBox {
@@ -19,10 +20,17 @@ class CandidateBox {
     this.pageSize = this.utilities.getOptions().layoutCandidatesPageSize || 5;
   }
 
-  destroy() {
+  destroy(targetElement?: KeyboardElement) {
     if (this.candidateBoxElement) {
       this.candidateBoxElement.remove();
       this.pageIndex = 0;
+    }
+    if (targetElement) {
+      this.show({
+        candidateValue: "",
+        targetElement: targetElement,
+        onSelect: () => {},
+      });
     }
   }
 
