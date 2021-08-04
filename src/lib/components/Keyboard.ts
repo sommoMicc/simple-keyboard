@@ -425,19 +425,25 @@ class SimpleKeyboard {
       const x = this.options.candidatesProvider(input);
       this.lastCandidateKey = x.candidateKey; // Save the last candidate key to allow rebuilding with the same data
 
-      const maxLenghtOfASuggestion =
-        x.candidateValue
-          .split(" ")
-          .map((x) => x.length)
-          .reduce((accumulator, currentValue) =>
-            Math.max(accumulator, currentValue)
-          ) ?? 1;
+      try {
+        const maxLenghtOfASuggestion = Math.max(
+          x.candidateValue
+            .split(" ")
+            .map((x) => x.length)
+            .reduce((accumulator, currentValue) =>
+              Math.max(accumulator, currentValue)
+            ) ?? 0,
+          1
+        );
 
-      this.setOptions({
-        layoutCandidatesPageSize: Math.round(
-          10 / Math.min(maxLenghtOfASuggestion, 10)
-        ),
-      });
+        this.setOptions({
+          layoutCandidatesPageSize: Math.round(
+            10 / Math.min(maxLenghtOfASuggestion, 10)
+          ),
+        });
+      } catch (e) {
+        console.error("Eccezione", e);
+      }
 
       this.showCandidatesBox(
         x.candidateKey,
