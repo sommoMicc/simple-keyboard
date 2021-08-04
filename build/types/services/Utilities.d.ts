@@ -184,7 +184,8 @@ declare class Utilities {
     /**
      * Split array into chunks
      */
-    chunkArray<T>(arr: T[], size: number): T[][];
+    chunkArray(arr: string[], size: number): Array<string[]>;
+    computeTotalStringLength(strings: string[]): number;
     /**
      * Reusable empty function
      */

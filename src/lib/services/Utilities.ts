@@ -526,10 +526,36 @@ class Utilities {
   /**
    * Split array into chunks
    */
-  chunkArray<T>(arr: T[], size: number): T[][] {
-    return [...Array(Math.ceil(arr.length / size))].map((_, i) =>
-      arr.slice(size * i, size + size * i)
-    );
+  // chunkArray<T>(arr: T[], size: number): T[][] {
+  //   return [...Array(Math.ceil(arr.length / size))].map((_, i) =>
+  //     arr.slice(size * i, size + size * i)
+  //   );
+  // }
+
+  chunkArray(arr: string[], size: number): Array<string[]> {
+    const results: Array<string[]> = [];
+
+    let currentPage: string[] = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (this.computeTotalStringLength(currentPage) + arr[i].length <= size) {
+        currentPage.push(arr[i]);
+      } else {
+        results.push(currentPage);
+        currentPage = [arr[i]];
+      }
+    }
+
+    results.push(currentPage);
+
+    return results;
+  }
+
+  computeTotalStringLength(strings: string[]): number {
+    let totalLenght = 0;
+    for (let i = 0; i < strings.length; i++) {
+      totalLenght += strings[i].length;
+    }
+    return totalLenght;
   }
 
   /**
