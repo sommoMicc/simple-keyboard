@@ -889,12 +889,22 @@ class SimpleKeyboard {
        * Reset and recreate candidateBox
        */
       if (this.candidateBox) {
+        if (this.options.debug)
+          console.log(
+            "I'm going to destroy candidateBox because layoutCandidatesOptions changed",
+            changedOptions
+          );
         this.candidateBox.destroy();
         this.candidateBox = new CandidateBox({
           utilities: this.utilities,
         });
-        if (!changedOptions.includes("layoutCandidatesPageSize"))
+        if (!changedOptions.includes("layoutCandidatesPageSize")) {
+          if (this.options.debug)
+            console.log(
+              "I'm rebuilding the layoutCandidates with rebuildCandidates method"
+            );
           this.rebuildCandidates(this.lastCandidateKey || "");
+        }
       }
     }
   }
