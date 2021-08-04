@@ -425,6 +425,20 @@ class SimpleKeyboard {
       const x = this.options.candidatesProvider(input);
       this.lastCandidateKey = x.candidateKey; // Save the last candidate key to allow rebuilding with the same data
 
+      const maxLenghtOfASuggestion =
+        x.candidateValue
+          .split(" ")
+          .map((x) => x.length)
+          .reduce((accumulator, currentValue) =>
+            Math.max(accumulator, currentValue)
+          ) ?? 1;
+
+      this.setOptions({
+        layoutCandidatesPageSize: Math.round(
+          10 / Math.min(maxLenghtOfASuggestion, 10)
+        ),
+      });
+
       this.showCandidatesBox(
         x.candidateKey,
         x.candidateValue,
@@ -872,7 +886,8 @@ class SimpleKeyboard {
         this.candidateBox = new CandidateBox({
           utilities: this.utilities,
         });
-        this.rebuildCandidates(this.lastCandidateKey || "");
+        if (!changedOptions.includes("layoutCandidatesPageSize"))
+          this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
   }
