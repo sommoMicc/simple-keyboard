@@ -426,25 +426,25 @@ class SimpleKeyboard {
       const x = this.options.candidatesProvider(input);
       this.lastCandidateKey = x.candidateKey; // Save the last candidate key to allow rebuilding with the same data
 
-      try {
-        const maxLenghtOfASuggestion = Math.max(
-          x.candidateValue
-            .split(" ")
-            .map((x) => x.length)
-            .reduce((accumulator, currentValue) =>
-              Math.max(accumulator, currentValue)
-            ) ?? 0,
-          1
-        );
+      // try {
+      //   const maxLenghtOfASuggestion = Math.max(
+      //     x.candidateValue
+      //       .split(" ")
+      //       .map((x) => x.length)
+      //       .reduce((accumulator, currentValue) =>
+      //         Math.max(accumulator, currentValue)
+      //       ) ?? 0,
+      //     1
+      //   );
 
-        this.setOptions({
-          layoutCandidatesPageSize: Math.round(
-            10 / Math.min(maxLenghtOfASuggestion, 10)
-          ),
-        });
-      } catch (e) {
-        console.error("Eccezione", e);
-      }
+      //   this.setOptions({
+      //     layoutCandidatesPageSize: Math.round(
+      //       10 / Math.min(maxLenghtOfASuggestion, 10)
+      //     ),
+      //   });
+      // } catch (e) {
+      //   console.error("Eccezione", e);
+      // }
 
       this.showCandidatesBox(
         x.candidateKey,
@@ -889,22 +889,11 @@ class SimpleKeyboard {
        * Reset and recreate candidateBox
        */
       if (this.candidateBox) {
-        if (this.options.debug)
-          console.log(
-            "I'm going to destroy candidateBox because layoutCandidatesOptions changed",
-            changedOptions
-          );
         this.candidateBox.destroy();
         this.candidateBox = new CandidateBox({
           utilities: this.utilities,
         });
-        if (!changedOptions.includes("layoutCandidatesPageSize")) {
-          if (this.options.debug)
-            console.log(
-              "I'm rebuilding the layoutCandidates with rebuildCandidates method"
-            );
-          this.rebuildCandidates(this.lastCandidateKey || "");
-        }
+        this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
   }

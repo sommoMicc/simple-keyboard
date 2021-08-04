@@ -17,7 +17,7 @@ class CandidateBox {
   constructor({ utilities }: CandidateBoxParams) {
     this.utilities = utilities;
     Utilities.bindMethods(CandidateBox, this);
-    this.pageSize = this.utilities.getOptions().layoutCandidatesPageSize || 5;
+    this.pageSize = this.utilities.getOptions().layoutCandidatesPageSize || 8;
   }
 
   destroy(targetElement?: KeyboardElement) {
