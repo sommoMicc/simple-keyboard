@@ -380,24 +380,25 @@ class SimpleKeyboard {
 
           if (newCaretPosition < 0) newCaretPosition = 0;
 
-          console.log(
-            "NewInput ",
-            newInput,
-            "CurrentInput ",
-            currentInput,
-            "inputSubstr ",
-            inputSubstr,
-            "regexp ",
-            regexp,
-            "candidateKey ",
-            candidateKey,
-            "selectedCandidate",
-            selectedCandidate,
-            "NewInputSubstr ",
-            newInputSubstr,
-            "newInput ",
-            newInput
-          );
+          if (this.options.debug)
+            console.log(
+              "NewInput ",
+              newInput,
+              "CurrentInput ",
+              currentInput,
+              "inputSubstr ",
+              inputSubstr,
+              "regexp ",
+              regexp,
+              "candidateKey ",
+              candidateKey,
+              "selectedCandidate",
+              selectedCandidate,
+              "NewInputSubstr ",
+              newInputSubstr,
+              "newInput ",
+              newInput
+            );
 
           this.setInput(newInput, this.options.inputName, true);
           this.setCaretPosition(newCaretPosition);
