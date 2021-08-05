@@ -11,7 +11,7 @@
     "coverage": "npm run test -- --coverage",
     "prepare": "npm run build",
     "trypublish": "npm publish || true",
-    "deploy": "npm run build && git add . && git commit -m 'a' && git push"
+    "deploy": "npm run build && git add . && git commit -m 'a' && git push && cd ../react-simple-keyboard && npm run deploy"
   },
   "repository": {
     "type": "git",
