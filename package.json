@@ -10,7 +10,8 @@
     "test": "jest --silent",
     "coverage": "npm run test -- --coverage",
     "prepare": "npm run build",
-    "trypublish": "npm publish || true"
+    "trypublish": "npm publish || true",
+    "deploy": "npm run build && git add . && git commit -m 'a' && git push"
   },
   "repository": {
     "type": "git",

@@ -56,6 +56,11 @@ class CandidateBox {
       onItemSelected: (selectedCandidate: string, e: MouseEvent) => {
         onSelect(selectedCandidate, e);
         this.destroy();
+        this.show({
+          candidateValue: "",
+          targetElement: targetElement,
+          onSelect: () => {},
+        });
       },
     });
   }
