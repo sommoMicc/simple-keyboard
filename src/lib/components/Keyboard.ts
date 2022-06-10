@@ -399,8 +399,12 @@ class SimpleKeyboard {
           const newInput = currentInput.replace(inputSubstr, newInputSubstr);
 
           console.log(
+            "CurrentInput",
+            currentInput,
             "Regexp:",
             regexp,
+            "inputSubstr:",
+            inputSubstr,
             "New input substr:",
             newInputSubstr,
             "New input:",
@@ -412,26 +416,6 @@ class SimpleKeyboard {
             (initialCaretPosition || currentInput.length) + caretPositionDiff;
 
           if (newCaretPosition < 0) newCaretPosition = 0;
-
-          if (this.options.debug)
-            console.log(
-              "NewInput ",
-              newInput,
-              "CurrentInput ",
-              currentInput,
-              "inputSubstr ",
-              inputSubstr,
-              "regexp ",
-              regexp,
-              "candidateKey ",
-              candidateKey,
-              "selectedCandidate",
-              selectedCandidate,
-              "NewInputSubstr ",
-              newInputSubstr,
-              "newInput ",
-              newInput
-            );
 
           this.setInput(newInput, this.options.inputName, true);
           this.setCaretPosition(newCaretPosition);
