@@ -384,9 +384,9 @@ class SimpleKeyboard {
           const normalizedCandidate = selectedCandidate.normalize("NFD");
           const currentInput = this.getInput(this.options.inputName, true);
           const initialCaretPosition = this.getCaretPositionEnd() || 0;
-          const inputSubstr = (
-            currentInput.substring(0, initialCaretPosition || 0) || currentInput
-          ).replace(/[^A-z]/g, "");
+          const inputSubstr =
+            currentInput.substring(0, initialCaretPosition || 0) ||
+            currentInput;
 
           const regexp = new RegExp(
             `${candidateKey}$`,
@@ -398,27 +398,30 @@ class SimpleKeyboard {
           );
           const newInput = currentInput.replace(inputSubstr, newInputSubstr);
 
-          console.log(
-            "CurrentInput",
-            currentInput,
-            "Regexp:",
-            regexp,
-            "inputSubstr before replace: ",
-            currentInput.substring(0, initialCaretPosition || 0) ||
-              currentInput,
-            `inputSubstr (0, ${initialCaretPosition}):`,
-            inputSubstr,
-            "New input substr:",
-            newInputSubstr,
-            "New input:",
-            newInput
-          );
-
           const caretPositionDiff = newInputSubstr.length - inputSubstr.length;
           let newCaretPosition =
             (initialCaretPosition || currentInput.length) + caretPositionDiff;
 
           if (newCaretPosition < 0) newCaretPosition = 0;
+
+          console.log(
+            "Normalized candidate: ",
+            normalizedCandidate,
+            "Current input: ",
+            currentInput,
+            "Input substr: ",
+            inputSubstr,
+            "Regex",
+            regexp,
+            "New input substr: ",
+            newInputSubstr,
+            "New input: ",
+            newInput,
+            "New caret position: ",
+            newCaretPosition,
+            "Caret position diff: ",
+            caretPositionDiff
+          );
 
           this.setInput(newInput, this.options.inputName, true);
           this.setCaretPosition(newCaretPosition);
@@ -428,6 +431,7 @@ class SimpleKeyboard {
               this.getInput(this.options.inputName, true),
               e
             );
+
           /**
            * Calling onChangeAll
            */
