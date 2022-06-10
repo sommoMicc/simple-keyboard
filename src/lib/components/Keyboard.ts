@@ -403,6 +403,9 @@ class SimpleKeyboard {
             currentInput,
             "Regexp:",
             regexp,
+            "inputSubstr before replace: ",
+            currentInput.substring(0, initialCaretPosition || 0) ||
+              currentInput,
             `inputSubstr (0, ${initialCaretPosition}):`,
             inputSubstr,
             "New input substr:",
