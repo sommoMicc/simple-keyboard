@@ -403,7 +403,7 @@ class SimpleKeyboard {
             currentInput,
             "Regexp:",
             regexp,
-            "inputSubstr:",
+            `inputSubstr (0, ${initialCaretPosition}):`,
             inputSubstr,
             "New input substr:",
             newInputSubstr,
