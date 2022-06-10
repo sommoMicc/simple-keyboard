@@ -374,6 +374,15 @@ class SimpleKeyboard {
           const newInputSubstr = inputSubstr.replace(regexp, selectedCandidate);
           const newInput = currentInput.replace(inputSubstr, newInputSubstr);
 
+          console.log(
+            "Regexp:",
+            regexp,
+            "New input substr:",
+            newInputSubstr,
+            "New input:",
+            newInput
+          );
+
           const caretPositionDiff = newInputSubstr.length - inputSubstr.length;
           let newCaretPosition =
             (initialCaretPosition || currentInput.length) + caretPositionDiff;
