@@ -6,17 +6,21 @@
   <a href="https://www.npmjs.com/package/simple-keyboard">
     <img src="https://badgen.net/npm/v/simple-keyboard?color=blue" alt="npm version">
   </a>
+	
+  <a href="https://github.com/hodgef/simple-keyboard/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT license">
+  </a>
 
   <a href="https://github.com/hodgef/simple-keyboard/actions">
-     <img alt="Build Status" src="https://github.com/hodgef/simple-keyboard/workflows/Build/badge.svg?color=green" />
+     <img alt="Build Status" src="https://github.com/hodgef/simple-keyboard/workflows/Build/badge.svg" />
   </a>
   
   <a href="https://github.com/hodgef/simple-keyboard/actions">
-     <img alt="Publish Status" src="https://github.com/hodgef/simple-keyboard/workflows/Publish/badge.svg?color=green" />
+     <img alt="Publish Status" src="https://github.com/hodgef/simple-keyboard/workflows/Publish/badge.svg" />
   </a>
-  
-  <a href="https://david-dm.org/hodgef/simple-keyboard">
-    <img src="https://badgen.net/david/dep/hodgef/simple-keyboard" alt="coverage">
+	
+  <a href="https://gitlab.com/hodgef/simple-keyboard" target="_blank">
+     <img alt="Mirroring" src="https://github.com/hodgef/simple-keyboard/actions/workflows/mirroring.yml/badge.svg" />
   </a>
 </p>
 
@@ -75,6 +79,8 @@ Want to create your own module? Check out the [Modules page](https://hodgef.com/
 - Safari 9+
 - Firefox 57+
 - iOS 9+
+
+> Note: If you don't want to support old browsers, you can use the Modern Browsers bundle ([index.modern.js](https://github.com/hodgef/simple-keyboard/blob/master/build)).
 
 ## ✅ Contributing
 

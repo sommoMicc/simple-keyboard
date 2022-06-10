@@ -21,8 +21,6 @@ export interface KeyboardInput {
     [key: string]: string
 }
 
-export type KeyboardParams = [KeyboardOptions] | [string | HTMLDivElement, KeyboardOptions];
-
 export type CandidateBoxParams = {
     utilities: Utilities
 }
@@ -148,6 +146,11 @@ export interface KeyboardOptions {
     physicalKeyboardHighlightPressUseClick?: boolean;
 
     /**
+     * Whether physicalKeyboardHighlightPress should use pointer events to trigger buttons.
+     */
+    physicalKeyboardHighlightPressUsePointerEvents?: boolean;
+
+    /**
      * Define the text color that the physical keyboard highlighted key should have.
      */
     physicalKeyboardHighlightTextColor?: string;
@@ -233,7 +236,7 @@ export interface KeyboardOptions {
     excludeFromLayout?: { [key: string]: string[] };
 
     /**
-     * Determine size of layout candidate list
+     * Determines size of layout candidate list
      */
     layoutCandidatesPageSize?: number;
 
@@ -241,6 +244,11 @@ export interface KeyboardOptions {
      * Can override the default candidates computation algorithm
      */
     candidatesProvider?: (input: string) => {candidateKey: string; candidateValue: string},
+
+    /** 
+     * Determines whether layout candidate match should be case sensitive.
+     */
+    layoutCandidatesCaseSensitiveMatch?: boolean;
 
     /**
      * Executes the callback function every time simple-keyboard is rendered (e.g: when you change layouts).

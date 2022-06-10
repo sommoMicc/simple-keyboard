@@ -53,7 +53,9 @@ class PhysicalKeyboard {
           options.physicalKeyboardHighlightTextColor || "black";
 
         if (options.physicalKeyboardHighlightPress) {
-          if (options.physicalKeyboardHighlightPressUseClick) {
+          if (options.physicalKeyboardHighlightPressUsePointerEvents) {
+            buttonDOM.onpointerdown();
+          } else if (options.physicalKeyboardHighlightPressUseClick) {
             buttonDOM.click();
           } else {
             instance.handleButtonClicked(buttonName, event);
@@ -64,6 +66,7 @@ class PhysicalKeyboard {
   }
 
   handleHighlightKeyUp(event: KeyboardEvent) {
+    const options = this.getOptions();
     const buttonPressed = this.getSimpleKeyboardLayoutKey(event);
 
     this.dispatch((instance: any) => {
@@ -73,6 +76,9 @@ class PhysicalKeyboard {
 
       if (buttonDOM && buttonDOM.removeAttribute) {
         buttonDOM.removeAttribute("style");
+        if (options.physicalKeyboardHighlightPressUsePointerEvents) {
+          buttonDOM.onpointerup();
+        }
       }
     });
   }

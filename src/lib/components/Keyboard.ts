@@ -10,7 +10,6 @@ import {
   KeyboardButtonElements,
   KeyboardHandlerEvent,
   KeyboardElement,
-  KeyboardParams,
 } from "../interfaces";
 import CandidateBox from "./CandidateBox";
 
@@ -52,14 +51,17 @@ class SimpleKeyboard {
    * Creates an instance of SimpleKeyboard
    * @param {Array} params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
    */
-  constructor(...params: KeyboardParams) {
+  constructor(
+    selectorOrOptions?: string | HTMLDivElement | KeyboardOptions,
+    keyboardOptions?: KeyboardOptions
+  ) {
     if (typeof window === "undefined") return;
 
     const {
       keyboardDOMClass,
       keyboardDOM,
       options = {},
-    } = this.handleParams(params);
+    } = this.handleParams(selectorOrOptions, keyboardOptions);
 
     /**
      * Initializing Utilities
@@ -106,6 +108,8 @@ class SimpleKeyboard {
      * @property {boolean} physicalKeyboardHighlightPress Presses keys highlighted by physicalKeyboardHighlight
      * @property {string} physicalKeyboardHighlightTextColor Define the text color that the physical keyboard highlighted key should have.
      * @property {string} physicalKeyboardHighlightBgColor Define the background color that the physical keyboard highlighted key should have.
+     * @property {boolean} physicalKeyboardHighlightPressUseClick Whether physicalKeyboardHighlightPress should use clicks to trigger buttons.
+     * @property {boolean} physicalKeyboardHighlightPressUsePointerEvents Whether physicalKeyboardHighlightPress should use pointer events to trigger buttons.
      * @property {boolean} preventMouseDownDefault Calling preventDefault for the mousedown events keeps the focus on the input.
      * @property {boolean} preventMouseUpDefault Calling preventDefault for the mouseup events.
      * @property {boolean} stopMouseDownPropagation Stops pointer down events on simple-keyboard buttons from bubbling to parent elements.
@@ -130,6 +134,7 @@ class SimpleKeyboard {
      * @property {object} excludeFromLayout Buttons to exclude from layout
      * @property {number} layoutCandidatesPageSize Determine size of layout candidate list
      * @property {function(input: string):{ candidateKey: string; candidateValue: string }} candidatesProvider Determine how layout candidates are computed
+     * @property {boolean} layoutCandidatesCaseSensitiveMatch Determines whether layout candidate match should be case sensitive.
      */
     this.options = {
       layoutName: "default",
@@ -234,7 +239,8 @@ class SimpleKeyboard {
    * parseParams
    */
   handleParams = (
-    params: KeyboardParams
+    selectorOrOptions?: string | HTMLDivElement | KeyboardOptions,
+    keyboardOptions?: KeyboardOptions
   ): {
     keyboardDOMClass: string;
     keyboardDOM: KeyboardElement;
@@ -248,29 +254,29 @@ class SimpleKeyboard {
      * If first parameter is a string:
      * Consider it as an element's class
      */
-    if (typeof params[0] === "string") {
-      keyboardDOMClass = params[0].split(".").join("");
+    if (typeof selectorOrOptions === "string") {
+      keyboardDOMClass = selectorOrOptions.split(".").join("");
       keyboardDOM = document.querySelector(
         `.${keyboardDOMClass}`
       ) as KeyboardElement;
-      options = params[1];
+      options = keyboardOptions;
 
       /**
        * If first parameter is an KeyboardElement
        * Consider it as the keyboard DOM element
        */
-    } else if (params[0] instanceof HTMLDivElement) {
+    } else if (selectorOrOptions instanceof HTMLDivElement) {
       /**
        * This element must have a class, otherwise throw
        */
-      if (!params[0].className) {
+      if (!selectorOrOptions.className) {
         console.warn("Any DOM element passed as parameter must have a class.");
         throw new Error("KEYBOARD_DOM_CLASS_ERROR");
       }
 
-      keyboardDOMClass = params[0].className.split(" ")[0];
-      keyboardDOM = params[0];
-      options = params[1];
+      keyboardDOMClass = selectorOrOptions.className.split(" ")[0];
+      keyboardDOM = selectorOrOptions;
+      options = keyboardOptions;
 
       /**
        * Otherwise, search for .simple-keyboard DOM element
@@ -280,7 +286,7 @@ class SimpleKeyboard {
       keyboardDOM = document.querySelector(
         `.${keyboardDOMClass}`
       ) as KeyboardElement;
-      options = params[0];
+      options = selectorOrOptions;
     }
 
     return {
@@ -314,7 +320,10 @@ class SimpleKeyboard {
   getInputCandidates(
     input: string
   ): { candidateKey: string; candidateValue: string } | Record<string, never> {
-    const { layoutCandidates: layoutCandidatesObj } = this.options;
+    const {
+      layoutCandidates: layoutCandidatesObj,
+      layoutCandidatesCaseSensitiveMatch,
+    } = this.options;
 
     if (!layoutCandidatesObj || typeof layoutCandidatesObj !== "object") {
       return {};
@@ -324,7 +333,10 @@ class SimpleKeyboard {
       (layoutCandidate: string) => {
         const inputSubstr =
           input.substring(0, this.getCaretPositionEnd() || 0) || input;
-        const regexp = new RegExp(`${layoutCandidate}$`, "g");
+        const regexp = new RegExp(
+          `${layoutCandidate}$`,
+          layoutCandidatesCaseSensitiveMatch ? "g" : "gi"
+        );
         const matches = [...inputSubstr.matchAll(regexp)];
         return !!matches.length;
       }
@@ -364,14 +376,26 @@ class SimpleKeyboard {
         candidateValue,
         targetElement,
         onSelect: (selectedCandidate: string, e: MouseEvent) => {
+          const { layoutCandidatesCaseSensitiveMatch } = this.options;
+
+          /**
+           * Making sure that our suggestions are not composed characters
+           */
+          const normalizedCandidate = selectedCandidate.normalize("NFD");
           const currentInput = this.getInput(this.options.inputName, true);
           const initialCaretPosition = this.getCaretPositionEnd() || 0;
           const inputSubstr = (
             currentInput.substring(0, initialCaretPosition || 0) || currentInput
           ).replace(/[^A-z]/g, "");
 
-          const regexp = new RegExp(`${candidateKey}$`, "g");
-          const newInputSubstr = inputSubstr.replace(regexp, selectedCandidate);
+          const regexp = new RegExp(
+            `${candidateKey}$`,
+            layoutCandidatesCaseSensitiveMatch ? "g" : "gi"
+          );
+          const newInputSubstr = inputSubstr.replace(
+            regexp,
+            normalizedCandidate
+          );
           const newInput = currentInput.replace(inputSubstr, newInputSubstr);
 
           console.log(
@@ -605,6 +629,26 @@ class SimpleKeyboard {
   }
 
   /**
+   * Get mouse hold state
+   */
+  getMouseHold() {
+    return this.isMouseHold;
+  }
+
+  /**
+   * Mark mouse hold state as set
+   */
+  setMouseHold(value: boolean) {
+    if (this.options.syncInstanceInputs) {
+      this.dispatch((instance: SimpleKeyboard) => {
+        instance.isMouseHold = value;
+      });
+    } else {
+      this.isMouseHold = value;
+    }
+  }
+
+  /**
    * Handles button mousedown
    */
   /* istanbul ignore next */
@@ -628,7 +672,7 @@ class SimpleKeyboard {
     /**
      * @type {boolean} Whether the mouse is being held onKeyPress
      */
-    this.isMouseHold = true;
+    this.setMouseHold(true);
 
     /**
      * @type {object} Time to wait until a key hold is detected
@@ -636,7 +680,7 @@ class SimpleKeyboard {
     if (!this.options.disableButtonHold) {
       this.holdTimeout = window.setTimeout(() => {
         if (
-          (this.isMouseHold &&
+          (this.getMouseHold() &&
             // TODO: This needs to be configurable through options
             ((!button.includes("{") && !button.includes("}")) ||
               button === "{delete}" ||
@@ -697,7 +741,7 @@ class SimpleKeyboard {
       buttonElement.classList.remove(this.activeButtonClass);
     });
 
-    this.isMouseHold = false;
+    this.setMouseHold(false);
     if (this.holdInteractionTimeout) clearTimeout(this.holdInteractionTimeout);
 
     /**
@@ -728,7 +772,7 @@ class SimpleKeyboard {
      * @type {object} Timeout dictating the speed of key hold iterations
      */
     this.holdInteractionTimeout = window.setTimeout(() => {
-      if (this.isMouseHold) {
+      if (this.getMouseHold()) {
         this.handleButtonClicked(button);
         this.handleButtonHold(button);
       } else {
@@ -917,6 +961,7 @@ class SimpleKeyboard {
     }
 
     this.keyboardDOM.className = this.keyboardDOMClass;
+    this.keyboardDOM.setAttribute("data-skInstance", this.currentInstanceName);
     this.buttonElements = {};
   }
 
@@ -1187,12 +1232,18 @@ class SimpleKeyboard {
     }
 
     this.dispatch((instance) => {
-      const isKeyboard =
+      let isKeyboard =
         event.target === instance.keyboardDOM ||
         (event.target && instance.keyboardDOM.contains(event.target));
 
-      if (instance.isMouseHold) {
-        instance.isMouseHold = false;
+      /**
+       * If syncInstanceInputs option is enabled, make isKeyboard match any instance
+       * not just the current one
+       */
+      if (this.options.syncInstanceInputs && Array.isArray(event.path)) {
+        isKeyboard = event.path.some((item: HTMLElement) =>
+          item?.hasAttribute?.("data-skInstance")
+        );
       }
 
       if (
@@ -1330,6 +1381,11 @@ class SimpleKeyboard {
      * Clearing activeInputElement
      */
     this.activeInputElement = null;
+
+    /**
+     * Removing instance attribute
+     */
+    this.keyboardDOM.removeAttribute("data-skInstance");
 
     /**
      * Clearing keyboardDOM
@@ -1712,6 +1768,11 @@ class SimpleKeyboard {
     );
 
     /**
+     * Adding keyboard identifier
+     */
+    this.keyboardDOM.setAttribute("data-skInstance", this.currentInstanceName);
+
+    /**
      * Create row wrapper
      */
     this.keyboardRowsDOM = document.createElement("div");
@@ -1873,7 +1934,7 @@ class SimpleKeyboard {
                * Handle mouse events
                */
               buttonDOM.onclick = (e: KeyboardHandlerEvent) => {
-                this.isMouseHold = false;
+                this.setMouseHold(false);
                 this.handleButtonClicked(button, e);
               };
               buttonDOM.onmousedown = (e: KeyboardHandlerEvent) => {
