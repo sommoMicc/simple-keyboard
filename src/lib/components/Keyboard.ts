@@ -261,7 +261,8 @@ class SimpleKeyboard {
       ) as KeyboardElement;
       options = keyboardOptions;
 
-      console.log("First element as sting", selectorOrOptions);
+      if (this.options.debug)
+        console.log("First element as sting", selectorOrOptions);
 
       /**
        * If first parameter is an KeyboardElement
@@ -1290,10 +1291,10 @@ class SimpleKeyboard {
    * Destroy keyboard listeners and DOM elements
    */
   destroy(): void {
-    // if (this.options.debug)
-    console.log(
-      `Destroying simple-keyboard instance: ${this.currentInstanceName}`
-    );
+    if (this.options.debug)
+      console.log(
+        `Destroying simple-keyboard instance: ${this.currentInstanceName}`
+      );
 
     /**
      * Remove document listeners
@@ -1725,13 +1726,14 @@ class SimpleKeyboard {
     this.beforeRender();
 
     const layoutClass = `hg-layout-${this.options.layoutName}`;
-    console.log(
-      "Keyboard classses",
-      this.keyboardDOMClass,
-      "\n",
-      "Keyboard Layout class",
-      layoutClass
-    );
+    if (this.options.debug)
+      console.log(
+        "Keyboard classses",
+        this.keyboardDOMClass,
+        "\n",
+        "Keyboard Layout class",
+        layoutClass
+      );
 
     const layout = this.options.layout || getDefaultLayout();
     const useTouchEvents = this.options.useTouchEvents || false;
