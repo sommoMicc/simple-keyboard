@@ -404,25 +404,6 @@ class SimpleKeyboard {
 
           if (newCaretPosition < 0) newCaretPosition = 0;
 
-          console.log(
-            "Normalized candidate: ",
-            normalizedCandidate,
-            "Current input: ",
-            currentInput,
-            "Input substr: ",
-            inputSubstr,
-            "Regex",
-            regexp,
-            "New input substr: ",
-            newInputSubstr,
-            "New input: ",
-            newInput,
-            "New caret position: ",
-            newCaretPosition,
-            "Caret position diff: ",
-            caretPositionDiff
-          );
-
           this.setInput(newInput, this.options.inputName, true);
           this.setCaretPosition(newCaretPosition);
 
