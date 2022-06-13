@@ -1290,10 +1290,10 @@ class SimpleKeyboard {
    * Destroy keyboard listeners and DOM elements
    */
   destroy(): void {
-    if (this.options.debug)
-      console.log(
-        `Destroying simple-keyboard instance: ${this.currentInstanceName}`
-      );
+    // if (this.options.debug)
+    console.log(
+      `Destroying simple-keyboard instance: ${this.currentInstanceName}`
+    );
 
     /**
      * Remove document listeners
