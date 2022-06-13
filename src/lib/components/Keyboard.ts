@@ -1723,6 +1723,14 @@ class SimpleKeyboard {
     this.beforeRender();
 
     const layoutClass = `hg-layout-${this.options.layoutName}`;
+    console.log(
+      "Keyboard classses",
+      this.keyboardDOMClass,
+      "\n",
+      "Keyboard Layout class",
+      layoutClass
+    );
+
     const layout = this.options.layout || getDefaultLayout();
     const useTouchEvents = this.options.useTouchEvents || false;
     const useTouchEventsClass = useTouchEvents ? "hg-touch-events" : "";
