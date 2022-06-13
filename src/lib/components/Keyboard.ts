@@ -261,6 +261,8 @@ class SimpleKeyboard {
       ) as KeyboardElement;
       options = keyboardOptions;
 
+      console.log("First element as sting", selectorOrOptions);
+
       /**
        * If first parameter is an KeyboardElement
        * Consider it as the keyboard DOM element
