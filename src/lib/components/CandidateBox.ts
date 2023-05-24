@@ -79,7 +79,10 @@ class CandidateBox {
   }: CandidateBoxRenderParams) {
     // Remove current candidate box, if any
     this.candidateBoxElement?.remove();
-    document.getElementById("hg-candidate-box")?.remove();
+    const candidatesBox = document.getElementsByClassName("hg-candidate-box");
+    for (let i = 0; i < candidatesBox?.length; i++) {
+      candidatesBox[i]?.remove();
+    }
     // Create candidate box element
     this.candidateBoxElement = document.createElement("div");
     this.candidateBoxElement.className = "hg-candidate-box";
