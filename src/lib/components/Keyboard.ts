@@ -11,7 +11,7 @@ import {
   KeyboardHandlerEvent,
   KeyboardElement,
 } from "../interfaces";
-import CandidateBox from "./CandidateBox";
+import CandidateBox, { removeAllCandidateBoxes } from "./CandidateBox";
 
 /**
  * Root class for simple-keyboard.
@@ -704,11 +704,8 @@ class SimpleKeyboard {
        * On click outside, remove candidateBox
        */
       if (!isKeyboard && this.candidateBox) {
-        this.candidateBox.destroy(
-          document.getElementById("hg-candidate-box") as
-            | HTMLButtonElement
-            | undefined
-        );
+        this.candidateBox.destroy();
+        removeAllCandidateBoxes();
         this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
@@ -905,11 +902,8 @@ class SimpleKeyboard {
        * Reset candidateBox
        */
       if (this.candidateBox) {
-        this.candidateBox.destroy(
-          document.getElementById("hg-candidate-box") as
-            | HTMLButtonElement
-            | undefined
-        );
+        this.candidateBox.destroy();
+        removeAllCandidateBoxes();
         this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
@@ -925,11 +919,8 @@ class SimpleKeyboard {
        * Reset and recreate candidateBox
        */
       if (this.candidateBox) {
-        this.candidateBox.destroy(
-          document.getElementById("hg-candidate-box") as
-            | HTMLButtonElement
-            | undefined
-        );
+        this.candidateBox.destroy();
+        removeAllCandidateBoxes();
         this.candidateBox = new CandidateBox({
           utilities: this.utilities,
         });
@@ -1360,11 +1351,8 @@ class SimpleKeyboard {
      * Candidate box
      */
     if (this.candidateBox) {
-      this.candidateBox.destroy(
-        document.getElementById("hg-candidate-box") as
-          | HTMLButtonElement
-          | undefined
-      );
+      this.candidateBox.destroy();
+      removeAllCandidateBoxes();
       this.candidateBox = null;
     }
 

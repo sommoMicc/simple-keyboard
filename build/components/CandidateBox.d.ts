@@ -1,6 +1,7 @@
 import "./css/CandidateBox.css";
 import Utilities from "../services/Utilities";
 import { CandidateBoxParams, CandidateBoxRenderParams, CandidateBoxShowParams, KeyboardElement } from "./../interfaces";
+export declare function removeAllCandidateBoxes(): void;
 declare class CandidateBox {
     utilities: Utilities;
     candidateBoxElement: HTMLDivElement;

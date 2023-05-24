@@ -8,6 +8,10 @@ import {
   KeyboardElement,
 } from "./../interfaces";
 
+export function removeAllCandidateBoxes() {
+  const el = document.getElementsByClassName("hg-candidate-box");
+  for (let i = 0; i < el.length; i++) el[i].remove();
+}
 class CandidateBox {
   utilities: Utilities;
   candidateBoxElement!: HTMLDivElement;
@@ -23,7 +27,7 @@ class CandidateBox {
   destroy(targetElement?: KeyboardElement) {
     if (this.candidateBoxElement) {
       this.candidateBoxElement.remove();
-      document.getElementById("hg-candidate-box")?.remove();
+      removeAllCandidateBoxes();
       this.pageIndex = 0;
     }
     if (targetElement) {
