@@ -23,6 +23,7 @@ class CandidateBox {
   destroy(targetElement?: KeyboardElement) {
     if (this.candidateBoxElement) {
       this.candidateBoxElement.remove();
+      document.getElementById("hg-candidate-box")?.remove();
       this.pageIndex = 0;
     }
     if (targetElement) {

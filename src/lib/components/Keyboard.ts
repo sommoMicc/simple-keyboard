@@ -704,7 +704,11 @@ class SimpleKeyboard {
        * On click outside, remove candidateBox
        */
       if (!isKeyboard && this.candidateBox) {
-        this.candidateBox.destroy();
+        this.candidateBox.destroy(
+          document.getElementById("hg-candidate-box") as
+            | HTMLButtonElement
+            | undefined
+        );
         this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
@@ -901,7 +905,11 @@ class SimpleKeyboard {
        * Reset candidateBox
        */
       if (this.candidateBox) {
-        this.candidateBox.destroy();
+        this.candidateBox.destroy(
+          document.getElementById("hg-candidate-box") as
+            | HTMLButtonElement
+            | undefined
+        );
         this.rebuildCandidates(this.lastCandidateKey || "");
       }
     }
@@ -917,7 +925,11 @@ class SimpleKeyboard {
        * Reset and recreate candidateBox
        */
       if (this.candidateBox) {
-        this.candidateBox.destroy();
+        this.candidateBox.destroy(
+          document.getElementById("hg-candidate-box") as
+            | HTMLButtonElement
+            | undefined
+        );
         this.candidateBox = new CandidateBox({
           utilities: this.utilities,
         });
@@ -1348,7 +1360,11 @@ class SimpleKeyboard {
      * Candidate box
      */
     if (this.candidateBox) {
-      this.candidateBox.destroy();
+      this.candidateBox.destroy(
+        document.getElementById("hg-candidate-box") as
+          | HTMLButtonElement
+          | undefined
+      );
       this.candidateBox = null;
     }
 
